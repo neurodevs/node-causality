@@ -1,9 +1,9 @@
 export default class StructuralCausalModel implements CausalModel {
     public static Class?: CausalModelConstructor
 
-    private U: Set<ExternalVariable>
-    private V: Set<InternalVariable>
-    private F: Set<CausalMechanism>
+    private readonly U: Set<ExternalVariable>
+    private readonly V: Set<InternalVariable>
+    private readonly F: Set<CausalMechanism>
 
     protected constructor(options: CausalModelOptions) {
         const { U, V, F } = options
