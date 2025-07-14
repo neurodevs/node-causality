@@ -27,10 +27,12 @@ export default class StructuralCausalModel implements CausalModel {
 }
 
 export interface CausalModel {
-    toTriple(): CausalModelOptions
+    toTriple(): CausalModelTriple
 }
 
-export interface CausalModelOptions {
+export interface CausalModelOptions extends CausalModelTriple {}
+
+export interface CausalModelTriple {
     U: Set<ExternalVariable>
     V: Set<InternalVariable>
     F: Set<CausalMechanism>
@@ -42,4 +44,6 @@ export interface InternalVariable {}
 
 export interface CausalMechanism {}
 
-export type CausalModelConstructor = new () => CausalModel
+export type CausalModelConstructor = new (
+    options: CausalModelOptions
+) => CausalModel
