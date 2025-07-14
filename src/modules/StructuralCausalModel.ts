@@ -17,6 +17,11 @@ export default class StructuralCausalModel implements CausalModel {
         return new (this.Class ?? this)(options)
     }
 
+    public toSubmodel(_Fx: Set<MechanismModification>): CausalModel {
+        const options = { ...this.toTriple() }
+        return StructuralCausalModel.Create(options)
+    }
+
     public toTriple() {
         return {
             U: this.U,
@@ -27,6 +32,7 @@ export default class StructuralCausalModel implements CausalModel {
 }
 
 export interface CausalModel {
+    toSubmodel(Fx: Set<MechanismModification>): CausalModel
     toTriple(): CausalModelTriple
 }
 
@@ -43,6 +49,8 @@ export interface ExternalVariable {}
 export interface InternalVariable {}
 
 export interface CausalMechanism {}
+
+export interface MechanismModification {}
 
 export type CausalModelConstructor = new (
     options: CausalModelOptions
