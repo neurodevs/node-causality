@@ -5,6 +5,9 @@ export default class StructuralCausalModel implements CausalModel {
     private readonly V: Set<InternalVariable>
     private readonly F: Set<CausalMechanism>
 
+    private currentF?: Set<CausalMechanism>
+    private currentFx?: Set<MechanismModification>
+
     protected constructor(options: CausalModelOptions) {
         const { U, V, F } = options
 
@@ -18,29 +21,39 @@ export default class StructuralCausalModel implements CausalModel {
     }
 
     public toSubmodel(Fx: Set<MechanismModification>): CausalModel {
-        const modifiedF = new Set<CausalMechanism>(this.F)
+        this.currentF = this.F
+        this.currentFx = Fx
 
-        Fx.forEach(({ dependent, value }) => {
-            const mechanism = Array.from(modifiedF).find(
-                (m) => m.dependent.name === dependent.name
-            )!
+        this.doMechanismModifications()
 
-            modifiedF.delete(mechanism)
+        const submodel = this.createSubmodel()
 
-            const modified: CausalMechanism = {
+        delete this.currentF
+        delete this.currentFx
+
+        return submodel
+    }
+
+    private doMechanismModifications() {
+        this.currentFx!.forEach(({ dependent, value }) => {
+            const { name } = dependent
+
+            const mechanism = this.f.find((m) => m.dependent.name === name)!
+
+            this.currentF!.delete(mechanism)
+
+            this.currentF!.add({
                 dependent,
-                function: (_variables) => {
-                    return value
-                },
-            }
-
-            modifiedF.add(modified)
+                function: (_variables) => value,
+            })
         })
+    }
 
+    private createSubmodel() {
         return StructuralCausalModel.Create({
             U: this.U,
             V: this.V,
-            F: modifiedF,
+            F: this.currentF!,
         })
     }
 
@@ -50,6 +63,14 @@ export default class StructuralCausalModel implements CausalModel {
             V: this.V,
             F: this.F,
         }
+    }
+
+    private get f() {
+        return this.toArray(this.F)
+    }
+
+    private toArray<T>(set: Set<T>) {
+        return Array.from(set)
     }
 }
 
