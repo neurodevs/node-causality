@@ -21,7 +21,7 @@ export default class StructuralCausalModel implements CausalModel {
     }
 
     public toSubmodel(Fx: Set<MechanismModification>): CausalModel {
-        this.currentF = this.F
+        this.currentF = new Set(this.F)
         this.currentFx = Fx
 
         this.doMechanismModifications()

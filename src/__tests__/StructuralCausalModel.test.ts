@@ -40,19 +40,7 @@ export default class StructuralCausalModelTest extends AbstractSpruceTest {
 
     @test()
     protected static async toSubmodelWithNonEmptySetReturnsNewSubmodel() {
-        const Fx = this.createSet<MechanismModification>([
-            {
-                dependent: this.v[0],
-                value: 1,
-            },
-
-            {
-                dependent: this.v[1],
-                value: 2,
-            },
-        ])
-
-        const submodel = this.instance.toSubmodel(Fx)
+        const submodel = this.toSubmodel()
         const { U, V, F } = submodel.toTriple()
 
         assert.isEqualDeep(U, this.U, 'U should be the same!')
@@ -81,13 +69,34 @@ export default class StructuralCausalModelTest extends AbstractSpruceTest {
 
     @test()
     protected static async toTripleMethodReturnsCorrectTriple() {
-        const triple = this.instance.toTriple()
+        const triple = this.toTriple()
 
         assert.isEqualDeep(
             triple,
             this.triple,
             'Triple does not equal expected!'
         )
+    }
+
+    @test()
+    protected static async toSubmodelDoesNotModifyOriginalModel() {
+        this.toSubmodel()
+
+        const { F: afterF } = this.toTriple()
+
+        assert.isEqualDeep(
+            afterF,
+            this.F,
+            'Original model should not be modified!'
+        )
+    }
+
+    private static toSubmodel() {
+        return this.instance.toSubmodel(this.Fx)
+    }
+
+    private static toTriple() {
+        return this.instance.toTriple()
     }
 
     private static externalVariables: ExternalVariable[] = [
@@ -132,6 +141,18 @@ export default class StructuralCausalModelTest extends AbstractSpruceTest {
         V: this.V,
         F: this.F,
     }
+
+    private static Fx = this.createSet<MechanismModification>([
+        {
+            dependent: this.v[0],
+            value: 1,
+        },
+
+        {
+            dependent: this.v[1],
+            value: 2,
+        },
+    ])
 
     private static createSet<T>(array?: T[]) {
         return new Set<T>(array ?? [])
