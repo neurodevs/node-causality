@@ -10,7 +10,7 @@ import StructuralCausalModel, {
     ExternalVariable,
     InternalVariable,
     MechanismModification,
-} from '../modules/StructuralCausalModel'
+} from '../../impl/StructuralCausalModel'
 
 export default class StructuralCausalModelTest extends AbstractSpruceTest {
     private static instance: CausalModel

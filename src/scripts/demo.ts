@@ -1,4 +1,4 @@
-import StructuralCausalModel from '../modules/StructuralCausalModel'
+import StructuralCausalModel from '../impl/StructuralCausalModel'
 
 const u = [
     { name: 'U1: C-tactile stimulus (left forearm)' },
