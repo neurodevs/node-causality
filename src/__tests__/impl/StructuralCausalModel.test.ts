@@ -1,5 +1,6 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
 import generateId from '@neurodevs/generate-id'
+import AbstractModuleTest, { test, assert } from '@neurodevs/node-tdd'
+
 import StructuralCausalModel, {
     CausalMechanism,
     CausalModel,
@@ -7,9 +8,9 @@ import StructuralCausalModel, {
     ExternalVariable,
     InternalVariable,
     MechanismModification,
-} from '../../impl/StructuralCausalModel'
+} from '../../impl/StructuralCausalModel.js'
 
-export default class StructuralCausalModelTest extends AbstractSpruceTest {
+export default class StructuralCausalModelTest extends AbstractModuleTest {
     private static instance: CausalModel
 
     protected static async beforeEach() {

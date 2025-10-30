@@ -14,6 +14,9 @@ export default class StructuralCausalModel implements CausalModel {
         this.U = U
         this.V = V
         this.F = F
+
+        delete this.currentF
+        delete this.currentFx
     }
 
     public static Create(options: CausalModelOptions) {

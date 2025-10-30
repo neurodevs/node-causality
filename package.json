@@ -2,6 +2,7 @@
   "name": "@neurodevs/node-causality",
   "version": "0.0.1",
   "description": "Executable modules for structural causal modeling",
+  "type": "module",
   "keywords": [
     "nodejs",
     "typescript",
@@ -42,7 +43,8 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@neurodevs/generate-id": "^1.0.0",
+    "@neurodevs/generate-id": "^1.0.9",
+    "@neurodevs/node-tdd": "^0.2.2",
     "@sprucelabs/jest-json-reporter": "^9.0.22",
     "@sprucelabs/resolve-path-aliases": "^3.0.12",
     "@sprucelabs/test": "^10.0.10",
